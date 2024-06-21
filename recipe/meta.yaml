@@ -6,11 +6,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: cd185dbc18347accb5a27c1289a6bdc989a479294a74f41c42a6cb0b414e5379
+  # Use upstream archive tarball for tests
+  url: https://github.com/dedupeio/doublemetaphone/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 69eb748a08e8d7d7f4448e8bfbc9b5d5018d979067c9b48c62d121633e4f7b55
 
 build:
-  #skip: true  # [win and py3k]
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
@@ -28,12 +28,16 @@ requirements:
     - python
 
 test:
+  source_files:
+    - tests
   imports:
     - doublemetaphone
   requires:
     - pip
+    - pytest
   commands:
     - pip check
+    - pytest -v tests
 
 about:
   home: https://github.com/datamade/doublemetaphone
