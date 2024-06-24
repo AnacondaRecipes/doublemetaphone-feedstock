@@ -43,7 +43,7 @@ about:
   home: https://github.com/datamade/doublemetaphone
   license: Artistic-2.0
   license_file: LICENSE
-  license_family: PSF
+  license_family: OTHER
   summary: Python wrapper for C++ Double Metaphone
   description: |
     Python wrapper for Stephen Lacy's C++ Implementation of Double
