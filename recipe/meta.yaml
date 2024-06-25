@@ -1,20 +1,18 @@
 {% set name = "DoubleMetaphone" %}
 {% set version = "1.1" %}
-{% set md5 = "eb6a3f05f3254db7268d462cd0a3ff49" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  md5: {{ md5 }}
+  # Use upstream archive tarball for tests
+  url: https://github.com/dedupeio/doublemetaphone/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 69eb748a08e8d7d7f4448e8bfbc9b5d5018d979067c9b48c62d121633e4f7b55
 
 build:
-  number: 2
-  script: python setup.py install --single-version-externally-managed --record record.txt
-  skip: true  # [win and py3k]
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   build:
@@ -22,21 +20,35 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - python
+    - pip
     - setuptools
+    - wheel
     - cython
-
   run:
     - python
 
 test:
+  source_files:
+    - tests
   imports:
     - doublemetaphone
+  requires:
+    - pip
+    - pytest
+  commands:
+    - pip check
+    - pytest -v tests
 
 about:
-  license: MIT
-  license_file: LICENSE
-  summary: Python wrapper for C++ Double Metaphone
   home: https://github.com/datamade/doublemetaphone
+  license: Artistic-2.0
+  license_file: LICENSE
+  license_family: OTHER
+  summary: Python wrapper for C++ Double Metaphone
+  description: |
+    Python wrapper for Stephen Lacy's C++ Implementation of Double
+    Metaphone. https://github.com/slacy/double-metaphone
+  doc_url: https://github.com/datamade/doublemetaphone
   dev_url: https://github.com/datamade/doublemetaphone
 
 extra:
